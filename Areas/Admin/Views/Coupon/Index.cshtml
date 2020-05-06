@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Coupon>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h3 class="text-info">Coupon List</h3>
+        </div>
+        <div class="col-6 text-right">
+            <partial name="_CreateButtonPartial" />
+        </div>
+    </div>
+    <br />
+
+    <div>
+        @if (TempData.ContainsKey("couponUpdate"))
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> @TempData["couponUpdate"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        @if (TempData.ContainsKey("failedcouponedit"))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Failed!</strong> @TempData["failedcouponedit"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+
+        <table class="table table-striped border">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Discount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.MinimumAmount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.IsActive)
+                </th>
+
+                <th>
+                    View
+                </th>
+                <th>
+                    Edit
+                </th>
+                <th>
+                    Delete
+                </th>
+
+
+            </tr>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var coupon in Model)
+                {
+                    <tr>
+                        <td>@coupon.Name</td>
+                        <td>@coupon.Discount</td>
+                        <td>@coupon.MinimumAmount</td>
+                        <td>@coupon.IsActive </td>
+                        <td> <a asp-action="Detail" title="view category: @coupon.Name " asp-route-id="@coupon.Id" class="btn btn-success"><i class="fa fa-eye"></i> </a> </td>
+                        <td> <a asp-action="Edit" title="Edit category @coupon.Name" asp-route-id="@coupon.Id" class="btn btn-info"><i class="fa fa-edit"></i> </a></td>
+                        <td> <a asp-action="Delete" title="Delete category @coupon.Name" asp-route-id="@coupon.Id" class="btn btn-danger"><i class="fa fa-trash"></i> </a></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+
+                    <td colspan="4">No record found</td>
+                </tr>
+            }
+
+
+        </table>
+    </div>
+</div>

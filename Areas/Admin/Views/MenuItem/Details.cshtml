@@ -1,0 +1,51 @@
+﻿@model Spice.Models.MenuItem
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row">
+    <div class="col-lg-8 ">
+
+        <div class="container">
+
+            <h3>
+                <strong>Name</strong>
+            </h3>
+            <h5>@Model.Name</h5>
+            <h3>
+                <strong>Price</strong>
+            </h3>
+            <h5>@Model.Price</h5>
+            <h3>
+                <strong>Category</strong>
+            </h3>
+            <h5>@Model.Category.Name</h5>
+            <h3>
+                <strong>Sub Category</strong>
+            </h3>
+            <h5>@Model.SubCategory.Name </h5>
+            <h3>
+                <strong>Description</strong>
+            </h3>
+            <p> @Html.Raw(Model.Description) </p>
+
+
+
+
+        </div>
+
+      
+    </div>
+
+    <div class="col-lg-4 backgroundWhite" style="height:300px;padding-bottom:-50px">
+        <div class="pt-3">
+            <center> <img src="@Model.Image" class="align-content-center" alt="" style="width:200px;height:200px;" /></center>
+        </div>
+        <br />
+        <a asp-action="Index"  class="btn btn-block btn-primary"> <i class="fa fa-left-arrow "></i>Back to list </a>
+    </div>
+
+</div>
+
+
+

@@ -1,0 +1,57 @@
+﻿@model Spice.ViewModel.SubCatandCatVm
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<br />
+<br />
+<div class="border backgroundWhite">
+
+    @{
+        var temsuccess = TempData["success"];
+    }
+
+
+
+
+    <div class="row">
+        <div class="offset-3 col-lg-6">
+            <partial name="_StatusMessage" model="Model.StatusMessage" />
+            <partial name="_StatusMessage" model="temsuccess" />
+            <form asp-action="Update" method="post">
+                <input type="hidden" asp-for="SubCategory.Id" />
+                <div class="form-group">
+                    <label for="category" style="font-weight:bolder">Category List</label>
+                    @Html.DropDownListFor(p => p.SubCategory.CategoryId, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control", id = "ddlCategoryList", placeholer = "Post Date" })
+                    <small class="text-danger">  @Html.ValidationMessageFor(p => p.SubCategory.CategoryId)</small>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SubCategory.Name, new { style = "font-weight:bolder" })
+                    <input class="form-control" asp-for="SubCategory.Name" placeholder="enter sub category name" />
+                    <small class="text-danger"> <span asp-validation-for="SubCategory.Name"> </span>  </small>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit"><i class="fa fa-plus"></i> Update </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <a asp-action="Index" class="btn btn-primary pull-right "> <i class="fa fa-arrow-left"></i> Back to list </a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+

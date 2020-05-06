@@ -1,0 +1,162 @@
+﻿@model Spice.ViewModel.MenuItemViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h3 class="text-info"> Create Menu Item</h3>
+<br />
+
+<form method="post" asp-action="CreatePost" enctype="multipart/form-data">
+    <div class="border backgroundWhite">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.Name"></label></strong>
+                    <input asp-for="MenuItem.Name" class="form-control" />
+                    <small class="text-danger"> <span asp-validation-for="MenuItem.Name"></span> </small>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.Description"></label></strong>
+                    @Html.TextAreaFor(m => m.MenuItem.Description, new { @class = "form-control", })
+                    <small class="text-danger"> <span asp-validation-for="MenuItem.Description"></span> </small>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.Price"></label></strong>
+                    <input asp-for="MenuItem.Price" class="form-control" />
+                    <small class="text-danger"> <span asp-validation-for="MenuItem.Price"></span> </small>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.Image"></label></strong>
+                    <input type="file" name="files" class="form-control" multiple />
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.CategoryId"></label></strong>
+                    @Html.DropDownListFor(m => m.MenuItem.CategoryId, new SelectList(Model.Categories, "Id", "Name"), "~ Select Category ~", new { @class = "form-control", id = "categoryId" })
+                    <small class="text-danger"> <span asp-validation-for="MenuItem.CategoryId"></span> </small>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.SubCategoryId"></label></strong>
+                    @Html.DropDownListFor(m => m.MenuItem.SubCategoryId, new SelectList(Model.SubCategories, "Id", "Name"), new { @class = "form-control", id = "SubCategoryId" })
+                    <small class="text-danger"> <span asp-validation-for="MenuItem.SubCategoryId"></span> </small>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="form-group">
+                    <strong>  <label asp-for="MenuItem.Spicyness"></label></strong>
+                    <select asp-for="@Model.MenuItem.Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control"></select>
+                    <small class="text-danger"> <span asp-validation-for="MenuItem.SubCategoryId"></span> </small>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-3">
+                <div class="row">
+                    <div class="col-6">
+                        <span class="btn btn-success btn-block"><i class="fa fa-plus"></i> <input type="submit" value="Create" style="border:none;background:none;color:#fff" /> </span>
+                    </div>
+                    <div class="col-6">
+                        <a asp-action="Index" class="btn btn-block btn-primary"><i class="fa fa-arrow-left"> &nbsp;Back to list</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+
+
+
+        $(document).ready(function () {
+            getSubCategory();
+            $('#categoryId').change(function () {
+                getSubCategory();
+            });
+
+            function getSubCategory() {
+                var categorySelected = document.getElementById("categoryId").value;
+                var list = $('#SubCategoryId');
+                $.ajax({
+                    url: '/Admin/SubCategory/GetSubCategory/ ' + categorySelected,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (results) {
+                        console.log(results)
+                        list.html('');
+
+
+                        if (results.length > 0) {
+
+                            results.forEach(result => {
+
+                                list.append('<option value = ' + result.id + '>' + result.name + '</option>');
+                            });
+                        }
+
+
+
+
+
+
+                    }
+                });
+            }
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+}

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Spice.Models.MenuItem>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+   
+
+}
+
+<br />
+<br />
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h3 class="text-info">MenuItem List</h3>
+        </div>
+        <div class="col-6 text-right">
+            <partial name="_CreateButtonPartial" />
+        </div>
+        @if (TempData.ContainsKey("deletion"))
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> @TempData["deletion"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        @if (TempData.ContainsKey("faileddeletion"))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Failed!</strong> @TempData["faileddeletion"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    </div>
+    <br />
+
+    <div>
+        <table class="table table-striped border">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.CategoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.SubCategoryId)
+                </th>
+                <th>Actions</th>
+               
+
+
+            </tr>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var menuItem in Model)
+                {
+        <tr>
+            <td>@menuItem.Name</td>
+            <td>@menuItem.Price</td>
+            <td>@menuItem.Category.Name</td>
+            <td>@menuItem.SubCategory.Name</td>
+            <td>
+                <a style="margin:-5px;" asp-action="Details" title="view category: @menuItem.Name " asp-route-id="@menuItem.Id" class="btn btn-success"><i class="fa fa-eye"></i> 
+                </a>
+                <a style="margin:-5px;" asp-action="Edit" title="Edit category @menuItem.Name" asp-route-id="@menuItem.Id" class="btn btn-info"><i class="fa fa-edit"></i> 
+                </a>
+                <a style="margin:-5px;" asp-action="Delete" title="Delete category @menuItem.Name" asp-route-id="@menuItem.Id" class="btn btn-danger"><i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+                }
+            }
+            else
+            {
+                <tr>
+
+                    <td colspan="5">No record found</td>
+                </tr>
+            }
+
+
+        </table>
+    </div>
+</div>
